@@ -1,24 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react';
+import Board from './components/Board';
+import useWebSocket from './hooks/useWebSocket';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+  const [data, sendMessage] = useWebSocket();
+  const [state, setState] = useState({});
+  const [rotated, setRotate] = useState(false);
+
+
+  if (data === null) return <p>Fetching data</p>;
+
+  const boardProps = {
+    data, sendMessage, state, setState, rotated
+  }
+
+  const sendMove = normal => () => {
+    sendMessage({kind: "move", payload: {init: state.firstSquare, dir: state.direction, normal}});
+    setState({});
+  }
+
+  const sendReset = () => {
+    sendMessage({kind: "reset"})
+  }
+
+
+  return (<>
+    <Board {...boardProps} />
+    <div>
+      <button onClick={() => setRotate(rot => !rot)}>Rotate</button>
+      <button onClick={() => setState({})} disabled={!state.firstSquare}>Cancel</button>
+      <button disabled={!state.direction} onClick={sendMove(true)}>Normal</button>
+      <button disabled={!state.direction} onClick={sendMove(false)}>Deflected</button>
+      <button onClick={sendReset}>Reset</button>
     </div>
+  </>
   );
 }
 

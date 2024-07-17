@@ -5,7 +5,7 @@ const useWebSocket = () => {
   const [message, setMessage] = useState(null);
 
   useEffect(() => {
-    const ws = new WebSocket("ws://localhost:8080/v1/ws");
+    const ws = new WebSocket(process.env.REACT_APP_BACKEND_PATH)
     ws.onopen = () => console.log('Connected to WebSocket server');
     ws.onmessage = (event) =>  setMessage(JSON.parse(event.data));
     ws.onerror = (event) => console.error(event);

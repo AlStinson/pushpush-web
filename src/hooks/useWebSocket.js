@@ -7,16 +7,16 @@ const useWebSocket = () => {
   useEffect(() => {
     const ws = new WebSocket(process.env.REACT_APP_BACKEND_PATH)
     ws.onopen = () => console.log('Connected to WebSocket server');
-    ws.onmessage = (event) =>  setMessage(JSON.parse(event.data));
+    ws.onmessage = (event) => setMessage(JSON.parse(event.data));
     ws.onerror = (event) => console.error(event);
     ws.onclose = () => console.log('Disconnected from WebSocket server');
     setSocket(ws);
 
     return () => {
-      ws.onopen = () => () => {};
-      ws.onmessage = () => {};
-      ws.onerror = () => {};
-      ws.onclose = () => {};
+      ws.onopen = () => () => { };
+      ws.onmessage = () => { };
+      ws.onerror = () => { };
+      ws.onclose = () => { };
       if (ws.readyState === 0) {
         ws.onopen = () => ws.close();
       } else {
@@ -25,12 +25,18 @@ const useWebSocket = () => {
     }
   }, []);
 
+  // Temporal solution so the server does not shut down while playing a game
+  useEffect(() => {
+    const timer = setInterval(() => fetch(process.env.REACT_APP_BACKEND_HEALTH).catch(), 60000);
+    return () => clearTimeout(timer);
+  }, [])
+
   const sendMessage = (data) => {
     if (socket && socket.readyState === WebSocket.OPEN) socket.send(JSON.stringify(data));
     else console.error('WebSocket connection not established');
   };
 
-  return [ message, sendMessage ];
+  return [message, sendMessage];
 };
 
 export default useWebSocket;

@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import Board from './components/Board';
 import useWebSocket from './hooks/useWebSocket';
-import Container from './components/styled/Container';
-import Header from './components/styled/Header';
-import Button from './components/styled/Button';
+import Container from './styles/Container';
+import Header from './styles/Header';
+import Button from './styles/Button';
 import { emptyMove } from './utils/Move';
 
 function App() {
@@ -30,7 +30,7 @@ function App() {
 
 
   return (<Container>
-    <Header>Pushpush Game</Header>
+    <Header>Pushpush</Header>
     <Container>
       <Button onClick={() => setRotate(rot => !rot)}>Rotate board</Button>
       <Button onClick={sendReset}>Reset game</Button>

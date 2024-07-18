@@ -17,7 +17,7 @@ const Board = props => {
             key: x + 8 * y,
             piece: board[`(${x},${y})`],
             selectable: !init ? movesAsInitial.length > 0 : !dir && movesAsFinal.length > 0,
-            selected: sameVector(square, init) || dir && sameVector(square, sumVectors(init, dir)),
+            selected: sameVector(square, init) || (dir && sameVector(square, sumVectors(init, dir))),
             onclick: () => {
                 if (!init) props.setLocalMove({init: square});
                 else if (movesAsFinal.length === 1) {

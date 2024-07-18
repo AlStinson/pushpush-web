@@ -1,27 +1,30 @@
 import Square from "./Square";
 import './Board.css';
+import { sameVector, subVectors, sumVectors } from "../utils/Vector2Integer";
+import { emptyMove } from "../utils/Move";
 
 const Board = props => {
 
     const {board, validMoves} = props.data;
-    const {firstSquare, direction} = props.state;
+    const {init, dir} = props.localMove;
 
     const renderSquare = (x, y) => {
-        const movesAsInitial = validMoves.filter(move => move.init.x === x && move.init.y === y);
-        const movesAsFinal = validMoves.filter(move => move.init.x === firstSquare?.x && move.init.y === firstSquare?.y && move.init.x + move.dir.x === x && move.init.y + move.dir.y === y);
+        const square = {x, y};
+        const movesAsInitial = validMoves.filter(move => sameVector(square, move.init));
+        const movesAsFinal = validMoves.filter(move => sameVector(init, move.init) && sameVector(square, sumVectors(move.init, move.dir)));
         const squareProps = {
             rotated: props.rotated,
             key: x + 8 * y,
             piece: board[`(${x},${y})`],
-            selectable: !firstSquare ? movesAsInitial.length > 0 : !direction && movesAsFinal.length > 0,
-            selected: firstSquare && firstSquare.x === x && firstSquare.y === y,
+            selectable: !init ? movesAsInitial.length > 0 : !dir && movesAsFinal.length > 0,
+            selected: sameVector(square, init) || dir && sameVector(square, sumVectors(init, dir)),
             onclick: () => {
-                if (!firstSquare) props.setState({firstSquare: {x, y}});
+                if (!init) props.setLocalMove({init: square});
                 else if (movesAsFinal.length === 1) {
                     props.sendMessage({kind: "move", payload: movesAsFinal[0]});
-                    props.setState({});
+                    props.setLocalMove(emptyMove);
                 } else {
-                    props.setState(state => ({...state, direction: {x:x-firstSquare.x, y:y-firstSquare.y}}))
+                    props.setLocalMove(state => ({...state, dir: subVectors(square, init)}))
                 }
             }
         }

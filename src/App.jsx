@@ -4,23 +4,24 @@ import useWebSocket from './hooks/useWebSocket';
 import Container from './components/styled/Container';
 import Header from './components/styled/Header';
 import Button from './components/styled/Button';
+import { emptyMove } from './utils/Move';
 
 function App() {
 
   const [data, sendMessage] = useWebSocket();
-  const [state, setState] = useState({});
+  const [localMove, setLocalMove] = useState(emptyMove);
   const [rotated, setRotate] = useState(false);
 
 
   if (data === null) return <p>Fetching data</p>;
 
   const boardProps = {
-    data, sendMessage, state, setState, rotated
+    data, sendMessage, localMove, setLocalMove, rotated
   }
 
   const sendMove = normal => () => {
-    sendMessage({ kind: "move", payload: { init: state.firstSquare, dir: state.direction, normal } });
-    setState({});
+    sendMessage({ kind: "move", payload: localMove });
+    setLocalMove(emptyMove);
   }
 
   const sendReset = () => {
@@ -36,9 +37,9 @@ function App() {
     </Container>
     <Board {...boardProps} />
     <Container>
-      <Button onClick={() => setState({})} disabled={!state.firstSquare}>Cancel</Button>
-      <Button disabled={!state.direction} onClick={sendMove(true)}>Normal</Button>
-      <Button disabled={!state.direction} onClick={sendMove(false)}>Deflected</Button>
+      <Button onClick={() => setLocalMove(emptyMove)} disabled={!localMove.init}>Cancel</Button>
+      <Button disabled={!localMove.dir} onClick={sendMove(true)}>Normal</Button>
+      <Button disabled={!localMove.dir} onClick={sendMove(false)}>Deflected</Button>
     </Container>
   </Container>);
 }

@@ -5,26 +5,28 @@ import { emptyMove } from "../utils/Move";
 
 const Board = props => {
 
-    const {board, validMoves} = props.data;
-    const {init, dir} = props.localMove;
+    const { board, validMoves } = props.data;
+    const { init, dir } = props.localMove;
 
     const renderSquare = (x, y) => {
-        const square = {x, y};
+        const square = { x, y };
         const movesAsInitial = validMoves.filter(move => sameVector(square, move.init));
         const movesAsFinal = validMoves.filter(move => sameVector(init, move.init) && sameVector(square, sumVectors(move.init, move.dir)));
+        const selectable = !init ? movesAsInitial.length > 0 : !dir && movesAsFinal.length > 0;
         const squareProps = {
             rotated: props.rotated,
             key: x + 8 * y,
             piece: board[`(${x},${y})`],
-            selectable: !init ? movesAsInitial.length > 0 : !dir && movesAsFinal.length > 0,
-            selected: sameVector(square, init) || (dir && sameVector(square, sumVectors(init, dir))),
+            selectable, 
+            selected: sameVector(square, init) || (init && dir && sameVector(square, sumVectors(init, dir))),
             onclick: () => {
-                if (!init) props.setLocalMove({init: square});
+                if (!selectable) props.setLocalMove(emptyMove);
+                else if (!init) props.setLocalMove({ init: square });
                 else if (movesAsFinal.length === 1) {
-                    props.sendMessage({kind: "move", payload: movesAsFinal[0]});
+                    props.sendMessage(movesAsFinal[0]);
                     props.setLocalMove(emptyMove);
                 } else {
-                    props.setLocalMove(state => ({...state, dir: subVectors(square, init)}))
+                    props.setLocalMove(state => ({ ...state, dir: subVectors(square, init) }))
                 }
             }
         }
@@ -42,7 +44,7 @@ const Board = props => {
 
 
     return (
-        <div className="board" style={{transform: `rotate(${props.rotated ? 180 : 0}deg)`}}>
+        <div className="board" style={{ transform: `rotate(${props.rotated ? 180 : 0}deg)` }}>
             {squares}
         </div>
     );

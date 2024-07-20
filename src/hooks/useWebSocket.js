@@ -1,42 +1,38 @@
 import { useEffect, useState } from 'react';
 
-const useWebSocket = () => {
+const useWebSocket = ({ gameId, kind }) => {
+  const [state, setState] = useState("CLOSED")
   const [socket, setSocket] = useState(null);
-  const [message, setMessage] = useState(null);
+  const [data, setData] = useState(null);
 
   useEffect(() => {
-    const ws = new WebSocket(process.env.REACT_APP_BACKEND_PATH)
-    ws.onopen = () => console.log('Connected to WebSocket server');
-    ws.onmessage = (event) => setMessage(JSON.parse(event.data));
+    if (!gameId || !kind) return;
+
+    console.log(process.env.REACT_APP_BACKEND_PATH + "/" + gameId + "/" + kind)
+    const ws = new WebSocket(process.env.REACT_APP_BACKEND_PATH + "/" + gameId + "/" + kind)
+    ws.onopen = () => setState("OPEN");
+    ws.onmessage = (event) => setData(JSON.parse(event.data));
     ws.onerror = (event) => console.error(event);
-    ws.onclose = () => console.log('Disconnected from WebSocket server');
+    ws.onclose = () => setState("CLOSED");
     setSocket(ws);
+    setState("LOADING");
 
     return () => {
-      ws.onopen = () => () => { };
+      ws.onopen = () => ws.close();
       ws.onmessage = () => { };
       ws.onerror = () => { };
       ws.onclose = () => { };
-      if (ws.readyState === 0) {
-        ws.onopen = () => ws.close();
-      } else {
-        ws.close();
-      }
+      if (ws.readyState !== 0) ws.close();
+      setState("CLOSED")
     }
-  }, []);
+  }, [gameId, kind]);
 
-  // Temporal solution so the server does not shut down while playing a game
-  useEffect(() => {
-    const timer = setInterval(() => fetch(process.env.REACT_APP_BACKEND_HEALTH).catch(), 60000);
-    return () => clearTimeout(timer);
-  }, [])
-
-  const sendMessage = (data) => {
-    if (socket && socket.readyState === WebSocket.OPEN) socket.send(JSON.stringify(data));
+  const sendMove = (move) => {
+    if (socket && socket.readyState === WebSocket.OPEN) socket.send(JSON.stringify(move));
     else console.error('WebSocket connection not established');
   };
 
-  return [message, sendMessage];
+  return [state, data, sendMove];
 };
 
 export default useWebSocket;

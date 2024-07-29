@@ -5,20 +5,18 @@ import Button from '../styles/Button';
 import { useState } from 'react';
 import Label from '../styles/Label';
 import Form from '../styles/Form';
+import { useNavigate } from 'react-router-dom';
 
-const Login = ({ gameProfile, setGameProfile }) => {
+const Index = () => {
 
-    const [gameId, setGameId] = useState(gameProfile.gameId || "");
-    const [kind, setKind] = useState(gameProfile.kind || "white");
+    const navigate = useNavigate();
 
-    const generateGameID = () => {
-        setGameId(uuid());
-    };
+    const [gameId, setGameId] = useState(uuid());
+    const [kind, setKind] = useState("white");
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setGameProfile({ gameId, kind })
-
+        navigate(`${gameId}/${kind}`)
     };
 
     return (
@@ -38,12 +36,9 @@ const Login = ({ gameProfile, setGameProfile }) => {
                 <option value="black">Black</option>
                 <option value="viewer">Viewer</option>
             </Select>
-            <Button type="button" onClick={generateGameID}>
-                Generate New Game
-            </Button>
-            <Button type="submit">Login</Button>
+            <Button type="submit">Play</Button>
         </Form>
     );
 }
 
-export default Login;
+export default Index;

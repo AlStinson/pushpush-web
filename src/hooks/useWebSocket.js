@@ -1,21 +1,25 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 const useWebSocket = ({ gameId, kind }) => {
-  const [state, setState] = useState("CLOSED")
+  const [error, setError] = useState()
   const [socket, setSocket] = useState(null);
   const [data, setData] = useState(null);
 
-  useEffect(() => {
-    if (!gameId || !kind) return;
+  const handleMessage = useCallback(event => {
+    try {
+      setData(JSON.parse(event.data))
+    } catch {
+      setError(event.data)
+    }
+  }, [])
 
-    console.log(process.env.REACT_APP_BACKEND_PATH + "/" + gameId + "/" + kind)
+  useEffect(() => {
     const ws = new WebSocket(process.env.REACT_APP_BACKEND_PATH + "/" + gameId + "/" + kind)
-    ws.onopen = () => setState("OPEN");
-    ws.onmessage = (event) => setData(JSON.parse(event.data));
-    ws.onerror = (event) => console.error(event);
-    ws.onclose = () => setState("CLOSED");
+    ws.onopen = () => {};
+    ws.onmessage = handleMessage;
+    ws.onerror = event => setError(event.data);
+    ws.onclose = () => {};
     setSocket(ws);
-    setState("LOADING");
 
     return () => {
       ws.onopen = () => ws.close();
@@ -23,16 +27,15 @@ const useWebSocket = ({ gameId, kind }) => {
       ws.onerror = () => { };
       ws.onclose = () => { };
       if (ws.readyState !== 0) ws.close();
-      setState("CLOSED")
     }
-  }, [gameId, kind]);
+  }, [gameId, kind, handleMessage]);
 
   const sendMove = (move) => {
     if (socket && socket.readyState === WebSocket.OPEN) socket.send(JSON.stringify(move));
-    else console.error('WebSocket connection not established');
+    else setError('WebSocket connection not established');
   };
 
-  return [state, data, sendMove];
+  return [error, data, sendMove];
 };
 
 export default useWebSocket;

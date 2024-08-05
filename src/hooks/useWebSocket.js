@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import move from '../sounds/move.mp3';
 
 const useWebSocket = ({ gameId, kind }) => {
   const [error, setError] = useState()
@@ -7,7 +8,9 @@ const useWebSocket = ({ gameId, kind }) => {
 
   const handleMessage = useCallback(event => {
     try {
-      setData(JSON.parse(event.data))
+      const json = JSON.parse(event.data);
+      if (json.moved) new Audio(move).play();
+      setData(json)
     } catch {
       setError(event.data)
     }

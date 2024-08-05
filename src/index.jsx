@@ -36,7 +36,7 @@ root.render(
       <GlobalStyles />
       <Health />
       <Container>
-        <Header>Pushpush</Header>
+        <header><Header>Pushpush</Header></header>
         <Container>
           <RouterProvider router={routes} />
         </Container>

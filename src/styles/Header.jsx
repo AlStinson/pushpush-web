@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Header = styled.header`
+const Header = styled.h1`
   background-color: var(--primary-color);
   padding: 20px;
   text-align: center;

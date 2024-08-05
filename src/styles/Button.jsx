@@ -7,7 +7,6 @@ const Button = styled.button`
   padding: var(--button-padding);
   margin: var(--button-margin);
   cursor: pointer;
-  font-size: 1rem;
   border-radius: var(--border-radius);
   transition: background-color 0.3s ease;
   width: 100%;

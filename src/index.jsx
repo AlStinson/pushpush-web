@@ -40,6 +40,9 @@ root.render(
         <Container>
           <RouterProvider router={routes} />
         </Container>
+        <footer>
+          <a target='_blank' href='/rules/pushpush_rules_es.pdf'>Rules</a>
+        </footer>
       </Container>
     </ErrorBoundary>
   </React.StrictMode>

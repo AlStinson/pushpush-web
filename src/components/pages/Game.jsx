@@ -60,9 +60,9 @@ const Game = () => {
       <Button onClick={() => navigate("/")}>Exit</Button>
     </HorizontalWrapper>
     <Container>
-      {gameProfile.kind !== "white" && <p>Invite someone to play as white <CopyIcon value={`${window.location.origin}/${gameProfile.gameId}/white`} action={() => addNotification("Link copied to clipboard")} /></p>}
-      {gameProfile.kind !== "black" && <p>Invite someone to play as black <CopyIcon value={`${window.location.origin}/${gameProfile.gameId}/black`} action={() => addNotification("Link copied to clipboard")} /></p>}
-      <p>Invite someone to view the game <CopyIcon value={`${window.location.origin}/${gameProfile.gameId}/viewer`} action={() => addNotification("Link copied to clipboard")} /></p>
+      {gameProfile.kind !== "white" && <p>Invite someone to play as white <CopyIcon value={`${window.location.origin}/game/${gameProfile.gameId}/white`} action={() => addNotification("Link copied to clipboard")} /></p>}
+      {gameProfile.kind !== "black" && <p>Invite someone to play as black <CopyIcon value={`${window.location.origin}/game/${gameProfile.gameId}/black`} action={() => addNotification("Link copied to clipboard")} /></p>}
+      <p>Invite someone to view the game <CopyIcon value={`${window.location.origin}/game/${gameProfile.gameId}/viewer`} action={() => addNotification("Link copied to clipboard")} /></p>
     </Container>
   </Container>)
 }

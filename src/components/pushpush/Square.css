@@ -7,9 +7,9 @@
 }
 
 .square:nth-child(odd) {
-  background-color: #d18b47; /* Light brown */
+  background-color: #d18b47;
 }
 
 .square:nth-child(even) {
-  background-color: #ffce9e; /* Light beige */
+  background-color: #ffce9e;
 }

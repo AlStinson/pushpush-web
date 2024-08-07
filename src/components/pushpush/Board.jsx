@@ -1,7 +1,7 @@
-import Square from "./Square";
 import './Board.css';
-import { sameVector, subVectors, sumVectors } from "../utils/Vector2Integer";
-import { emptyMove } from "../utils/Move";
+import Square from "./Square";
+import { emptyMove } from "../../utils/Move";
+import { sameVector, subVectors, sumVectors } from "../../utils/Vector2Integer";
 
 const Board = props => {
 
@@ -17,13 +17,13 @@ const Board = props => {
             rotated: props.rotated,
             key: x + 8 * y,
             piece: board[`(${x},${y})`],
-            selectable, 
+            selectable,
             selected: sameVector(square, init) || (init && dir && sameVector(square, sumVectors(init, dir))),
             onclick: () => {
                 if (!selectable) props.setLocalMove(emptyMove);
                 else if (!init) props.setLocalMove({ init: square });
                 else if (movesAsFinal.length === 1) {
-                    props.sendMessage(movesAsFinal[0]);
+                    props.sendMove(movesAsFinal[0]);
                     props.setLocalMove(emptyMove);
                 } else {
                     props.setLocalMove(state => ({ ...state, dir: subVectors(square, init) }))

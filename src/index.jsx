@@ -1,49 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import GlobalStyles from './styles/GlobalStyles';
-import Container from './styles/Container';
-import Header from './styles/Header';
-import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
+import GlobalStyles from './components/styles/GlobalStyles';
+import Container from './components/styles/Container';
 import Health from './components/Health';
-import Game from './components/Game';
-import Index from './components/Index';
-import { ErrorBoundary } from 'react-error-boundary';
-import Error from './components/Error';
-
-const routes = createBrowserRouter([
-  {
-    path: "/",
-    element: <Index />,
-  },
-  {
-    path: "/:gameId/:kind",
-    element: <Game />,
-  },
-  {
-    path: "/error",
-    element: <Error />
-  },
-  {
-    path: "/*",
-    element: <Navigate to={"/error"} state={"404 Page not found"} />
-  }
-])
+import Header from './components/elements/Header';
+import Footer from './components/elements/Footer';
+import NotificationWrapper from './components/wrappers/NotificationWrapper';
+import Routes from './components/pages/Routes';
+import ErrorWrapper from './components/wrappers/ErrorWrapper';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <ErrorBoundary fallback={({error}) => <Navigate to={"/error"} state={error}/>}>
-      <GlobalStyles />
-      <Health />
-      <Container>
-        <header><Header>Pushpush</Header></header>
+    <ErrorWrapper>
+      <NotificationWrapper>
+        <GlobalStyles />
+        <Health />
         <Container>
-          <RouterProvider router={routes} />
+          <Header />
+          <Container>
+            <Routes />
+          </Container>
+          <Footer />
         </Container>
-        <footer>
-          <a target='_blank' href='/rules/pushpush_rules_es.pdf'>Rules</a>
-        </footer>
-      </Container>
-    </ErrorBoundary>
+      </NotificationWrapper>
+    </ErrorWrapper>
   </React.StrictMode>
 );

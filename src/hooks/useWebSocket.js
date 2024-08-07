@@ -1,27 +1,35 @@
 import { useCallback, useEffect, useState } from 'react';
-import move from '../sounds/move.mp3';
+import { useNavigate } from 'react-router-dom';
+import useConst from './useConst';
 
-const useWebSocket = ({ gameId, kind }) => {
-  const [error, setError] = useState()
+const useWebSocket = (pathParam, onmessageParam) => {
   const [socket, setSocket] = useState(null);
-  const [data, setData] = useState(null);
+  const navigate = useNavigate();
+
+  const onmessage = useConst(onmessageParam);
+  const path = useConst(pathParam);
+
+  const handleError = useCallback(error => {
+    navigate("/error", { state: error });
+  }, [navigate])
 
   const handleMessage = useCallback(event => {
     try {
       const json = JSON.parse(event.data);
-      if (json.moved) new Audio(move).play();
-      setData(json)
-    } catch {
-      setError(event.data)
+      if (json.kind === "ERROR") handleError(json.payload);
+      else onmessage(json);
+
+    } catch (e) {
+      handleError(event.data)
     }
-  }, [])
+  }, [handleError, onmessage])
 
   useEffect(() => {
-    const ws = new WebSocket(process.env.REACT_APP_BACKEND_PATH + "/" + gameId + "/" + kind)
-    ws.onopen = () => {};
+    const ws = new WebSocket(`${process.env.REACT_APP_BACKEND_PATH}/${path}`)
+    ws.onopen = () => { };
     ws.onmessage = handleMessage;
-    ws.onerror = event => setError(event.data);
-    ws.onclose = () => {};
+    ws.onerror = event => handleError(event.data);
+    ws.onclose = () => { };
     setSocket(ws);
 
     return () => {
@@ -29,16 +37,16 @@ const useWebSocket = ({ gameId, kind }) => {
       ws.onmessage = () => { };
       ws.onerror = () => { };
       ws.onclose = () => { };
-      if (ws.readyState !== 0) ws.close();
+      if (ws.readyState === WebSocket.OPEN) ws.close();
     }
-  }, [gameId, kind, handleMessage]);
+  }, [path, handleMessage, handleError]);
 
-  const sendMove = (move) => {
-    if (socket && socket.readyState === WebSocket.OPEN) socket.send(JSON.stringify(move));
-    else setError('WebSocket connection not established');
-  };
+  const sendMessage = useCallback((message) => {
+    if (socket && socket.readyState === WebSocket.OPEN) socket.send(JSON.stringify(message));
+    else handleError('WebSocket connection not established');
+  }, [socket, handleError]);
 
-  return [error, data, sendMove];
+  return sendMessage;
 };
 
 export default useWebSocket;

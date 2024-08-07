@@ -3,7 +3,7 @@ import Container from "../styles/Container";
 
 const Error = () => {
 
-    const {state} = useLocation();
+    const { state } = useLocation();
 
     return <Container>
         <h2> Error! </h2>

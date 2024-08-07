@@ -16,10 +16,19 @@ const Index = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        navigate(`${gameId}/${kind}`)
+        navigate(`game/${gameId}/${kind}`)
     };
 
-    return (
+    const matchmaking = e => {
+        e.preventDefault();
+        navigate("matchmaking");
+    }
+
+    return (<>
+        <Form onSubmit={matchmaking}>
+            <Button type="submit">Matchmaking</Button>
+        </Form>
+        ---------- o ----------
         <Form onSubmit={handleSubmit}>
             <Label htmlFor="gameId">Game</Label>
             <Input
@@ -38,7 +47,8 @@ const Index = () => {
             </Select>
             <Button type="submit">Play</Button>
         </Form>
-    );
+
+    </>);
 }
 
 export default Index;

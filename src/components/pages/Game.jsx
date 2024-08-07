@@ -1,4 +1,4 @@
-import { useCallback, useContext, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import CopyIcon from '../elements/CopyIcon';
 import Board from '../pushpush/Board';
@@ -9,6 +9,8 @@ import NotificationContext from '../../context/NotificationContext';
 import useWebSocket from '../../hooks/useWebSocket';
 import { emptyMove } from '../../utils/Move';
 import move from '../../sounds/move.mp3';
+import start from '../../sounds/game-start.mp3'
+import TrySound from '../../utils/TrySound';
 
 const Game = () => {
   const gameProfile = useParams();
@@ -19,9 +21,15 @@ const Game = () => {
   const [localMove, setLocalMove] = useState(emptyMove);
   const [rotated, setRotate] = useState(false);
 
+  const isDataNull = data === null;
+
+  useEffect(() => {
+    if (!isDataNull) TrySound(start);
+  }, [isDataNull])
+
   const handleMessage = (json) => {
     setData(json.game)
-    if (json.game.moved) new Audio(move).play();
+    if (json.game.moved) TrySound(move);
   };
 
   const sendMessage = useWebSocket(`game/${gameProfile.gameId}/${gameProfile.kind}`, handleMessage);

@@ -1,10 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import Container from "../styles/Container";
-import usePageView from "../../hooks/usePageView";
 
 const Error = () => {
-
-    usePageView();
 
     const { state } = useLocation();
 

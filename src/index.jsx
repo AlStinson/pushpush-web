@@ -8,6 +8,17 @@ import Footer from './components/elements/Footer';
 import NotificationWrapper from './components/wrappers/NotificationWrapper';
 import Routes from './components/pages/Routes';
 import ErrorWrapper from './components/wrappers/ErrorWrapper';
+import { styled } from 'styled-components';
+
+const BodyWrapper = styled(Container)`
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 40px);
+`;
+
+const MainWrapper = styled.main`
+  flex: 1;
+`
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -16,13 +27,13 @@ root.render(
       <NotificationWrapper>
         <GlobalStyles />
         <Health />
-        <Container>
+        <BodyWrapper>
           <Header />
-          <Container>
+          <MainWrapper>
             <Routes />
-          </Container>
+          </MainWrapper>
           <Footer />
-        </Container>
+        </BodyWrapper>
       </NotificationWrapper>
     </ErrorWrapper>
   </React.StrictMode>

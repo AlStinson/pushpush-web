@@ -3,9 +3,12 @@ import useWebSocket from "../../hooks/useWebSocket";
 import Container from "../styles/Container";
 import StopWatch from "../elements/StopWatch";
 import Button from "../styles/Button";
+import usePageView from "../../hooks/usePageView";
 
 const Matchmaking = () => {
 
+    usePageView();
+    
     const navigate = useNavigate();
 
     const onmessage = (json) => {

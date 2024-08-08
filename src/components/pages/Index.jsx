@@ -6,8 +6,11 @@ import { useState } from 'react';
 import Label from '../styles/Label';
 import Form from '../styles/Form';
 import { useNavigate } from 'react-router-dom';
+import usePageView from '../../hooks/usePageView';
 
 const Index = () => {
+
+    usePageView();
 
     const navigate = useNavigate();
 

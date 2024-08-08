@@ -8,6 +8,11 @@ import Footer from './components/elements/Footer';
 import NotificationWrapper from './components/wrappers/NotificationWrapper';
 import Routes from './components/pages/Routes';
 import ErrorWrapper from './components/wrappers/ErrorWrapper';
+import reportWebVitals from './utils/reportWebVitals';
+import sendToAnalytics from './utils/sendToGoogleAnalytics';
+import ReactGA from 'react-ga4';
+
+ReactGA.initialize('G-DMCKNTHGTH');
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -27,3 +32,5 @@ root.render(
     </ErrorWrapper>
   </React.StrictMode>
 );
+
+reportWebVitals(sendToAnalytics);

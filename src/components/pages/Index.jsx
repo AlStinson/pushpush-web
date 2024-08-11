@@ -40,7 +40,7 @@ const Index = () => {
                 required
             />
             <Label htmlFor="kind">Team</Label>
-            <Select id={kind} value={kind} onChange={(e) => setKind(e.target.value)}>
+            <Select id="kind" value={kind} onChange={(e) => setKind(e.target.value)}>
                 <option value="white">White</option>
                 <option value="black">Black</option>
                 <option value="viewer">Viewer</option>

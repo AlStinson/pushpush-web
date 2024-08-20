@@ -11,6 +11,7 @@ import { emptyMove } from '../../utils/Move';
 import move from '../../sounds/move.mp3';
 import start from '../../sounds/game-start.mp3'
 import TrySound from '../../utils/TrySound';
+import Loading from '../elements/Loading';
 
 const Game = () => {
   const gameProfile = useParams();
@@ -40,7 +41,7 @@ const Game = () => {
 
 
 
-  if (data === null) return <p>Fetching data</p>;
+  if (data === null) return <Loading/>;
 
   const boardProps = {
     data, sendMove, localMove, setLocalMove, addNotification,

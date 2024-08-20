@@ -12,7 +12,7 @@ const Matchmaking = () => {
         navigate(`/game/${json.gameId}/${json.view}`)
     }
 
-    useWebSocket("/matchmaking", onmessage);
+    useWebSocket("matchmaking", onmessage);
     return <Container>
         <h2>Matchmaking</h2>
         <StopWatch />

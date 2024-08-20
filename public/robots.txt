@@ -1,3 +1,4 @@
 User-agent: *
-Disallow:
+Disallow: /matchmaking
+Disallow: /game
 Sitemap: https://pushpush-web.onrender.com/sitemap.xml

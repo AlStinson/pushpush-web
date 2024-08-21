@@ -1,3 +1,4 @@
+import React from "react";
 import GlobalStyles from "../styles/GlobalStyles";
 import H1 from "../styles/H1";
 import useHealth from "../../hooks/useHealth";

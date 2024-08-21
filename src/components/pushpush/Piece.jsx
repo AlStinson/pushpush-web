@@ -1,5 +1,7 @@
+import React from "react";
 import "./Piece.css";
 import * as images from "../../images/index";
+import { bool, string } from "prop-types";
 
 const Piece = ({ piece, rotated }) => {
   return (
@@ -10,6 +12,11 @@ const Piece = ({ piece, rotated }) => {
       <img src={images[piece]} alt={piece} />
     </div>
   );
+};
+
+Piece.propTypes = {
+  piece: string,
+  rotated: bool,
 };
 
 export default Piece;

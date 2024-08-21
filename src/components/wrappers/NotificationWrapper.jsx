@@ -1,3 +1,5 @@
+import React from "react";
+import PropTypes from "prop-types";
 import { useCallback, useState } from "react";
 import NotificationContext from "../../context/NotificationContext";
 import Notification from "../styles/Notification";
@@ -24,6 +26,10 @@ const NotificationWrapper = (props) => {
       {props.children}
     </NotificationContext.Provider>
   );
+};
+
+NotificationWrapper.propTypes = {
+  children: PropTypes.node,
 };
 
 export default NotificationWrapper;

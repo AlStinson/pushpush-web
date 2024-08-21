@@ -1,3 +1,6 @@
+import { func, string } from "prop-types";
+import React from "react";
+
 const CopyIcon = (props) => {
   const onClick = () => {
     navigator.clipboard.writeText(props.value);
@@ -21,6 +24,11 @@ const CopyIcon = (props) => {
       />
     </svg>
   );
+};
+
+CopyIcon.propTypes = {
+  value: string,
+  action: func,
 };
 
 export default CopyIcon;

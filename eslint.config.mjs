@@ -8,4 +8,5 @@ export default [
   { ignores: ["build/"] },
   pluginJs.configs.recommended,
   pluginReact.configs.flat.recommended,
+  { settings: { react: { version: "detect" } } },
 ];

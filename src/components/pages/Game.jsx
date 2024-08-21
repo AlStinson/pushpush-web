@@ -13,6 +13,7 @@ import start from "../../sounds/game-start.mp3";
 import TrySound from "../../utils/TrySound";
 import Loading from "../elements/Loading";
 
+import React from "react";
 const Game = () => {
   const gameProfile = useParams();
   const navigate = useNavigate();

@@ -23,7 +23,7 @@ const useWebSocket = (pathParam, onmessageParam) => {
         if (json.kind === "ERROR") handleError(json.payload);
         else onmessage(json);
       } catch (e) {
-        handleError(event.data);
+        handleError(event.data, e);
       }
     },
     [handleError, onmessage],

@@ -7,7 +7,7 @@ const useHealth = () => {
 
     const chechHealth = () => {
         setHealth("LOADING");
-        fetch(process.env.REACT_APP_BACKEND_HEALTH)
+        fetch(import.meta.env.VITE_BACKEND_HEALTH)
             .then(res => setHealth(res.ok ? "OK" : "ERROR"))
             .catch(() => setHealth("ERROR"));
     }

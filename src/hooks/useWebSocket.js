@@ -25,7 +25,7 @@ const useWebSocket = (pathParam, onmessageParam) => {
   }, [handleError, onmessage])
 
   useEffect(() => {
-    const ws = new WebSocket(`${process.env.REACT_APP_BACKEND_PATH}/${path}`)
+    const ws = new WebSocket(`${import.meta.env.VITE_BACKEND_PATH}/${path}`)
     ws.onopen = () => { };
     ws.onmessage = handleMessage;
     ws.onerror = event => handleError(event.data);

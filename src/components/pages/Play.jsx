@@ -7,7 +7,7 @@ import Label from '../styles/Label';
 import Form from '../styles/Form';
 import { useNavigate } from 'react-router-dom';
 
-const Index = () => {
+const Play = () => {
 
     const navigate = useNavigate();
 
@@ -16,12 +16,12 @@ const Index = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        navigate(`game/${gameId}/${kind}`)
+        navigate(`/game/${gameId}/${kind}`)
     };
 
     const matchmaking = e => {
         e.preventDefault();
-        navigate("matchmaking");
+        navigate("/matchmaking");
     }
 
     return (<>
@@ -51,4 +51,4 @@ const Index = () => {
     </>);
 }
 
-export default Index;
+export default Play;

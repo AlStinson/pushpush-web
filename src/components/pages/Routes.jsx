@@ -1,17 +1,35 @@
 import { Navigate, RouterProvider, createBrowserRouter } from "react-router-dom";
 import Error from "./Error";
-import Index from "./Index";
-import LoaderWrapper from "../wrappers/LoaderWrapper";
+import Layout from "./Layout";
+import Play from "./Play";
+import About from "./About";
+import Rules from "./Rules";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <LoaderWrapper />,
+    element: <Layout />,
     children:
       [
         {
           path: "/",
-          element: <Index />,
+          element: <Play />,
+        },
+        {
+          path: "/home",
+          element: <Play />,
+        },
+        {
+          path: "/play",
+          element: <Play />,
+        },
+        {
+          path: "/rules",
+          element: <Rules />
+        },
+        {
+          path: "/about",
+          element: <About />
         },
         {
           path: "/matchmaking",

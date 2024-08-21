@@ -6,6 +6,18 @@
         <priority>1</priority>
     </url>
     <url>
+        <loc>https://pushpush-web.onrender.com/play</loc>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>https://pushpush-web.onrender.com/rules</loc>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>https://pushpush-web.onrender.com/about</loc>
+        <priority>1</priority>
+    </url>
+    <url>
         <loc>https://pushpush-web.onrender.com/rules/pushpush_rules_es.pdf</loc>
         <priority>0.5</priority>
     </url>

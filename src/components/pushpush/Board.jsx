@@ -3,7 +3,7 @@ import "./Board.css";
 import Square from "./Square";
 import { emptyMove, moveProps } from "../../utils/Move";
 import { sameVector, subVectors, sumVectors } from "../../utils/Vector2Integer";
-import { arrayOf, bool, func, object, shape, string } from "prop-types";
+import { arrayOf, bool, func, object, shape } from "prop-types";
 
 const Board = (props) => {
   const { board, validMoves } = props.data;

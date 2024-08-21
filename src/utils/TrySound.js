@@ -1,5 +1,5 @@
 const TrySound = (sound) => {
-    new Audio(sound).play().catch(() => {});
-}
+  new Audio(sound).play().catch(() => {});
+};
 
-export default TrySound
+export default TrySound;

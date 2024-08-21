@@ -16,7 +16,6 @@ const Form = styled.form`
     margin: 15px auto;
   }
 
-  
   @media (max-width: 480px) {
     width: 250px;
     margin: 10px auto;
@@ -24,4 +23,4 @@ const Form = styled.form`
   }
 `;
 
-export default Form
+export default Form;

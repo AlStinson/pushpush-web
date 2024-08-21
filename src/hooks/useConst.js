@@ -1,8 +1,8 @@
-import { useState } from "react"
+import { useState } from "react";
 
 const useConst = (initialValue) => {
-    const [value,] = useState(() => initialValue);
-    return value;
-}
+  const [value] = useState(() => initialValue);
+  return value;
+};
 
 export default useConst;

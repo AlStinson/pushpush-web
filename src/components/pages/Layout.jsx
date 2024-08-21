@@ -16,7 +16,7 @@ const BodyWrapper = styled(Container)`
 
 const MainWrapper = styled.main`
   flex: 1;
-`
+`;
 
 const Nav = styled.nav`
   overflow: hidden;
@@ -24,31 +24,33 @@ const Nav = styled.nav`
   position: sticky;
   position: -webkit-sticky;
   top: 0;
-`
+`;
 
 const Layout = () => {
-    useHealth();
+  useHealth();
 
-    const navigation = useNavigation();
+  const navigation = useNavigation();
 
-    return <>
-        <GlobalStyles />
-        <BodyWrapper>
-            <header>
-                <H1>Pushpush</H1>
-                <Nav>
-                    <NavLink to="/">Home</NavLink>
-                    <NavLink to="/play">Play</NavLink>
-                    <NavLink to="/rules">Rules</NavLink>
-                    <NavLink to="/about">About</NavLink>
-                </Nav>
-            </header>
-            <MainWrapper>
-                {navigation.state !== 'idle' ? <Loading /> : <Outlet />}
-            </MainWrapper>
-            <Footer />
-        </BodyWrapper>
+  return (
+    <>
+      <GlobalStyles />
+      <BodyWrapper>
+        <header>
+          <H1>Pushpush</H1>
+          <Nav>
+            <NavLink to="/">Home</NavLink>
+            <NavLink to="/play">Play</NavLink>
+            <NavLink to="/rules">Rules</NavLink>
+            <NavLink to="/about">About</NavLink>
+          </Nav>
+        </header>
+        <MainWrapper>
+          {navigation.state !== "idle" ? <Loading /> : <Outlet />}
+        </MainWrapper>
+        <Footer />
+      </BodyWrapper>
     </>
-}
+  );
+};
 
 export default Layout;

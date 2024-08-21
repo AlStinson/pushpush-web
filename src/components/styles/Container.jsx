@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Container = styled.div`
   padding: 20px;
@@ -10,11 +10,9 @@ const Container = styled.div`
     padding: 15px;
   }
 
-  
   @media (max-width: 480px) {
     padding: 10px;
   }
-
 `;
 
 export default Container;

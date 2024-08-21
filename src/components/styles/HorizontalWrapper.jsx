@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const HorizontalWrapper = styled.div`
   display: flex;
@@ -10,7 +10,6 @@ const HorizontalWrapper = styled.div`
     gap: 7.5px;
   }
 
-  
   @media (max-width: 480px) {
     padding: 5px;
   }

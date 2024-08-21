@@ -16,18 +16,18 @@ const NavLink = styled(RRDNavLink)`
 
   &.active {
     background-color: #666;
-    color: white
+    color: white;
   }
 
   @media (max-width: 768px) {
     padding: 11px 15px;
   }
-  
+
   @media (max-width: 400px) {
     float: none;
     width: calc(100% - 20px);
     padding: 7px 10px;
   }
-`
+`;
 
 export default NavLink;

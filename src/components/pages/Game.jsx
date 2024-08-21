@@ -109,7 +109,7 @@ const Game = () => {
       </HorizontalWrapper>
       <Container>
         {gameProfile.kind !== "white" && (
-          <p>
+          <p className="flex justify-center">
             Invite someone to play as white{" "}
             <CopyIcon
               value={`${window.location.origin}/game/${gameProfile.gameId}/white`}
@@ -118,7 +118,7 @@ const Game = () => {
           </p>
         )}
         {gameProfile.kind !== "black" && (
-          <p>
+          <p className="flex justify-center">
             Invite someone to play as black{" "}
             <CopyIcon
               value={`${window.location.origin}/game/${gameProfile.gameId}/black`}
@@ -126,8 +126,8 @@ const Game = () => {
             />
           </p>
         )}
-        <p>
-          Invite someone to view the game{" "}
+        <p className="flex justify-center">
+          Invite someone to view the game
           <CopyIcon
             value={`${window.location.origin}/game/${gameProfile.gameId}/viewer`}
             action={() => addNotification("Link copied to clipboard")}

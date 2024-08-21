@@ -24,7 +24,6 @@ const Board = (props) => {
       : !dir && movesAsFinal.length > 0;
     const squareProps = {
       rotated: props.rotated,
-      key: x + 8 * y,
       piece: board[`(${x},${y})`],
       selectable,
       selected:
@@ -45,7 +44,7 @@ const Board = (props) => {
       },
     };
 
-    return <Square {...squareProps} />;
+    return <Square {...squareProps} key={x + 8 * y} />;
   };
 
   const squares = [];

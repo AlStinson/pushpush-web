@@ -9,16 +9,6 @@ import Container from "../styles/Container";
 import Loading from "../elements/Loading";
 import NavLink from "../styles/NavLink";
 
-const BodyWrapper = styled(Container)`
-  display: flex;
-  flex-direction: column;
-  min-height: calc(100vh - 40px);
-`;
-
-const MainWrapper = styled.main`
-  flex: 1;
-`;
-
 const Nav = styled.nav`
   overflow: hidden;
   background-color: #333;
@@ -35,9 +25,9 @@ const Layout = () => {
   return (
     <>
       <GlobalStyles />
-      <BodyWrapper>
+      <Container className="flex flex-col min-h-screen">
         <header>
-          <H1>Pushpush</H1>
+          <H1 className="text-[2em] font-bold">Pushpush</H1>
           <Nav>
             <NavLink to="/">Home</NavLink>
             <NavLink to="/play">Play</NavLink>
@@ -45,11 +35,11 @@ const Layout = () => {
             <NavLink to="/about">About</NavLink>
           </Nav>
         </header>
-        <MainWrapper>
+        <main className="grow">
           {navigation.state !== "idle" ? <Loading /> : <Outlet />}
-        </MainWrapper>
+        </main>
         <Footer />
-      </BodyWrapper>
+      </Container>
     </>
   );
 };

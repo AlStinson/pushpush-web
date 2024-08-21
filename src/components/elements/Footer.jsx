@@ -1,11 +1,15 @@
 import React from "react";
 import Icon from "../styles/Icon";
-import "./Footer.css";
 
 const Footer = () => {
   return (
-    <footer>
-      <a target="_blank" href="https://x.com/JaviYagami" rel="noreferrer">
+    <footer className="flex justify-center space-x-5">
+      <a
+        target="_blank"
+        href="https://x.com/JaviYagami"
+        rel="noreferrer"
+        className="w-auto"
+      >
         <Icon
           src="https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Twitter_colored_svg-32.png"
           alt="twitter"

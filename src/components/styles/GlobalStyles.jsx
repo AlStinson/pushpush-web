@@ -19,6 +19,12 @@ const GlobalStyles = createGlobalStyle`
     background-color: var(--background-color);
     color: var(--text-color);
   }
+
+  h2 {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 0.75em 0em;
+  }
 `;
 
 export default GlobalStyles;

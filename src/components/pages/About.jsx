@@ -10,7 +10,7 @@ const About = () => {
         loading="lazy"
         className="mx-auto w-[291px] h-[240px] mb-4 mt-2"
       />
-      <p>Under construction </p>
+      <p>🚧 Under construction 🚧</p>
     </Container>
   );
 };

@@ -1,3 +1,39 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  h1 {
+    @apply text-3xl;
+    @apply font-extrabold;
+  }
+
+  h2 {
+    @apply text-2xl;
+    @apply font-bold;
+  }
+
+  h3 {
+    @apply text-xl;
+    @apply font-semibold;
+  }
+
+  :root {
+    --primary-color: #007bff;
+    --primary-hover: #0056b3;
+    --background-color: #f0f2f5;
+    --text-color: #333;
+    --button-padding: 10px 20px;
+    --button-margin: 10px 0;
+    --border-radius: 5px;
+  }
+
+  body {
+    font-family: "Roboto", sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+  }
+}
+
+@layer components {
+}

@@ -4,7 +4,7 @@ import Container from "../styles/Container";
 const Rules = () => {
   return (
     <Container>
-      <h2>Rules</h2>
+      <h2 className="my-4">Rules</h2>
       Download:
       <a
         target="_blank"

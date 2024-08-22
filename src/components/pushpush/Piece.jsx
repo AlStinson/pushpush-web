@@ -1,15 +1,11 @@
 import React from "react";
-import "./Piece.css";
 import * as images from "../../images/index";
 import { bool, string } from "prop-types";
 
 const Piece = ({ piece, rotated }) => {
   return (
-    <div
-      className="piece"
-      style={{ transform: `rotate(${rotated ? 180 : 0}deg)` }}
-    >
-      <img src={images[piece]} alt={piece} />
+    <div className={`w-full h-full ${rotated ? "rotate-180" : ""}`}>
+      <img className="w-full h-full" src={images[piece]} alt={piece} />
     </div>
   );
 };

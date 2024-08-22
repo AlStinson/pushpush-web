@@ -1,5 +1,4 @@
 import React from "react";
-import "./Board.css";
 import Square from "./Square";
 import { emptyMove, moveProps } from "../../utils/Move";
 import { sameVector, subVectors, sumVectors } from "../../utils/Vector2Integer";
@@ -56,8 +55,7 @@ const Board = (props) => {
 
   return (
     <div
-      className="board"
-      style={{ transform: `rotate(${props.rotated ? 180 : 0}deg)` }}
+      className={`grid grid-rows-7 grid-cols-7 w-100 max-w-[calc(100vw-60px)] h-100 max-h-[calc(100vw-60px)] flex-wrap mx-auto my-5 ${props.rotated ? "rotate-180" : ""}`}
     >
       {squares}
     </div>

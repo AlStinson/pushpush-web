@@ -1,28 +1,40 @@
-import React from "react";
-import Container from "../styles/Container";
+import React, { useState } from "react";
 
 const Rules = () => {
+  const [hiddenContent, setHiddenContent] = useState(true);
+
   return (
-    <Container>
+    <>
       <h2 className="my-4">Rules</h2>
-      <p>⚠ Right now rules are only available in spanish.</p>
-      <p> Translation to english is in progress.</p>
-      <p> Translation to any other language is more than welcome</p>
       <p className="mt-5 mb-10">
-        Download the rules in pdf:
-        <a
-          target="_blank"
-          href="/rules/pushpush_rules_es.pdf"
-          className="ml-1.5 bg-blue-700 text-white hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 rounded-lg text-sm px-5 py-2.5 "
-        >
-          es
-        </a>
+        Download the rules in pdf
+        <span className="mobile:hidden">:</span>
+        <div className="inline mobile:block mobile:mt-2">
+          <a
+            target="_blank"
+            href="/rules/pushpush_rules_es.pdf"
+            className="ml-1.5 bg-blue-700 text-white hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 rounded-lg text-sm px-5 py-2.5"
+          >
+            es
+          </a>
+        </div>
       </p>
-      <hr />
+      <div className="relative">
+        <p>⚠ Right now rules are only available in spanish.</p>
+        <p> Translation to english is in progress.</p>
+        <p> Translation to any other language is more than welcome.</p>
+      </div>
       <div className="text-left mt-5 space-y-2">
         <div className="bg-[#f9f9f9] table border-solid border-[#aaa] border-2 mb-4 p-5">
-          <h3 className="mb-5">Contenido</h3>
-          <ul className="text-left list-inside list-decimal">
+          <h3 className="mb-5">
+            <button onClick={() => setHiddenContent((value) => !value)}>
+              <span className="mr-2">{hiddenContent ? "▶" : "▼"}</span>
+            </button>
+            Contenido
+          </h3>
+          <ul
+            className={`text-left list-inside list-decimal ${hiddenContent ? "hidden" : ""}`}
+          >
             <li>
               <a href="#t1">Componentes</a>
             </li>
@@ -142,7 +154,7 @@ const Rules = () => {
           piezas estén alineadas con el centro del tablero.
         </p>
       </div>
-    </Container>
+    </>
   );
 };
 

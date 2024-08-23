@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="flex justify-center space-x-5">
+    <footer className="flex justify-center space-x-5 my-4">
       <a target="_blank" href="https://x.com/JaviYagami" rel="noreferrer">
         <img
           src="https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Twitter_colored_svg-32.png"

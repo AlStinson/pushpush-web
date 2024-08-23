@@ -9,6 +9,7 @@ import Layout from "./Layout";
 import Play from "./Play";
 import About from "./About";
 import Rules from "./Rules";
+import Home from "./Home";
 
 const router = createBrowserRouter([
   {
@@ -17,11 +18,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Play />,
+        element: <Home />,
       },
       {
         path: "/home",
-        element: <Play />,
+        element: <Home />,
       },
       {
         path: "/play",

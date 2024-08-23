@@ -1,7 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import useWebSocket from "../../hooks/useWebSocket";
-import Container from "../styles/Container";
 import StopWatch from "../elements/StopWatch";
 import Button from "../styles/Button";
 
@@ -14,11 +13,11 @@ const Matchmaking = () => {
 
   useWebSocket("matchmaking", onmessage);
   return (
-    <Container>
+    <>
       <h2>Matchmaking</h2>
       <StopWatch />
       <Button onClick={() => navigate("/")}>Cancel</Button>
-    </Container>
+    </>
   );
 };
 

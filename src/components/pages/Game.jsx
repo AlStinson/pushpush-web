@@ -3,7 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import CopyIcon from "../elements/CopyIcon";
 import Board from "../pushpush/Board";
 import Button from "../styles/Button";
-import Container from "../styles/Container";
 import HorizontalWrapper from "../styles/HorizontalWrapper";
 import NotificationContext from "../../context/NotificationContext";
 import useWebSocket from "../../hooks/useWebSocket";
@@ -68,7 +67,7 @@ const Game = () => {
   };
 
   return (
-    <Container>
+    <>
       <HorizontalWrapper>
         {gameProfile.kind !== "viewer" && (
           <div>
@@ -107,7 +106,7 @@ const Game = () => {
         )}
         <Button onClick={() => navigate("/")}>Exit</Button>
       </HorizontalWrapper>
-      <Container>
+      <div className="mt-4">
         {gameProfile.kind !== "white" && (
           <p className="flex justify-center">
             Invite someone to play as white{" "}
@@ -133,8 +132,8 @@ const Game = () => {
             action={() => addNotification("Link copied to clipboard")}
           />
         </p>
-      </Container>
-    </Container>
+      </div>
+    </>
   );
 };
 

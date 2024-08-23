@@ -2,11 +2,11 @@ import { NavLink as RRDNavLink } from "react-router-dom";
 import { styled } from "styled-components";
 
 const NavLink = styled(RRDNavLink)`
-  float: left;
-  display: block;
+  width: 120px;
+  display: inline-block;
   color: white;
   text-align: center;
-  padding: 14px 20px;
+  padding: 16px 20px;
   text-decoration: none;
 
   &:hover {
@@ -20,13 +20,12 @@ const NavLink = styled(RRDNavLink)`
   }
 
   @media (max-width: 768px) {
-    padding: 11px 15px;
+    width: 100px;
+    padding: 12px 16px;
   }
 
   @media (max-width: 400px) {
-    float: none;
-    width: calc(100% - 20px);
-    padding: 7px 10px;
+    padding: 8px 12px;
   }
 `;
 

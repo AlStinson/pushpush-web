@@ -38,6 +38,13 @@ const Footer = () => {
       >
         Source code
       </a>
+      <a
+        target="_blank"
+        href="https://github.com/AlStinson/pushpush-web/issues"
+        rel="noreferrer"
+      >
+        Issues
+      </a>
     </footer>
   );
 };

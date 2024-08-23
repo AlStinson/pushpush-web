@@ -9,7 +9,7 @@ const Rules = () => {
       <p className="mt-5 mb-10">
         Download the rules in pdf
         <span className="mobile:hidden">:</span>
-        <div className="inline mobile:block mobile:mt-2">
+        <span className="inline mobile:block mobile:mt-2">
           <a
             target="_blank"
             href="/rules/pushpush_rules_es.pdf"
@@ -17,7 +17,7 @@ const Rules = () => {
           >
             es
           </a>
-        </div>
+        </span>
       </p>
       <div className="relative">
         <p>⚠ Right now rules are only available in spanish.</p>

@@ -38,6 +38,11 @@ const Game = () => {
     handleMessage,
   );
 
+  const surrender = () => {
+    sendMessage({ kind: "SURRENDER" });
+    setLocalMove(emptyMove);
+  };
+
   const sendMove = useCallback(
     (move) => {
       sendMessage({ kind: "GAME_UPDATE", move });
@@ -95,6 +100,11 @@ const Game = () => {
             Cancel
           </Button>
         )}
+        {gameProfile.kind !== "viewer" && (
+          <Button onClick={surrender} disabled={data.winner}>
+            Surrender
+          </Button>
+        )}
         {gameProfile.kind === "viewer" && (
           <Button onClick={() => setRotate((rot) => !rot)}>Rotate board</Button>
         )}
@@ -109,7 +119,7 @@ const Game = () => {
       <div className="mt-4">
         {gameProfile.kind !== "white" && (
           <p className="flex justify-center">
-            Invite someone to play as white{" "}
+            Invite someone to play as white
             <CopyIcon
               value={`${window.location.origin}/game/${gameProfile.gameId}/white`}
               action={() => addNotification("Link copied to clipboard")}
@@ -118,7 +128,7 @@ const Game = () => {
         )}
         {gameProfile.kind !== "black" && (
           <p className="flex justify-center">
-            Invite someone to play as black{" "}
+            Invite someone to play as black
             <CopyIcon
               value={`${window.location.origin}/game/${gameProfile.gameId}/black`}
               action={() => addNotification("Link copied to clipboard")}

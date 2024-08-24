@@ -43,6 +43,11 @@ const Game = () => {
     setLocalMove(emptyMove);
   };
 
+  const restart = () => {
+    sendMessage({ kind: "RESTART" });
+    setLocalMove(emptyMove);
+  };
+
   const sendMove = useCallback(
     (move) => {
       sendMessage({ kind: "GAME_UPDATE", move });
@@ -100,10 +105,11 @@ const Game = () => {
             Cancel
           </Button>
         )}
-        {gameProfile.kind !== "viewer" && (
-          <Button onClick={surrender} disabled={data.winner}>
-            Surrender
-          </Button>
+        {gameProfile.kind !== "viewer" && !data.winner && (
+          <Button onClick={surrender}>Surrender</Button>
+        )}
+        {gameProfile.kind !== "viewer" && data.winner && (
+          <Button onClick={restart}>Restart</Button>
         )}
         {gameProfile.kind === "viewer" && (
           <Button onClick={() => setRotate((rot) => !rot)}>Rotate board</Button>

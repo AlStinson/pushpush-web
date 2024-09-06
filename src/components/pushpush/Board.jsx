@@ -1,12 +1,18 @@
+import { bool, func, object } from "prop-types";
 import React from "react";
-import Square from "./Square";
+
 import { emptyMove, moveProps } from "../../utils/Move";
 import { sameVector, subVectors, sumVectors } from "../../utils/Vector2Integer";
-import { arrayOf, bool, func, object, shape } from "prop-types";
+import Square from "./Square";
+
+const BOARD_SIZE = 7;
 
 const Board = (props) => {
-  const { board, validMoves } = props.data;
+  const { board, validMoves } = props.data.game;
   const { init, dir } = props.localMove;
+  const { whiteName, blackName, hasStarted } = props.data;
+  const { kind } = props.gameProfile;
+  const { whiteClock, blackClock } = props;
 
   const renderSquare = (x, y) => {
     const square = { x, y };
@@ -43,34 +49,62 @@ const Board = (props) => {
       },
     };
 
-    return <Square {...squareProps} key={x + 8 * y} />;
+    return <Square {...squareProps} key={x + (BOARD_SIZE + 1) * y} />;
   };
 
   const squares = [];
-  for (let y = 7; y > 0; y--) {
-    for (let x = 1; x < 8; x++) {
+  for (let y = BOARD_SIZE; y >= 1; y--) {
+    for (let x = 1; x <= BOARD_SIZE; x++) {
       squares.push(renderSquare(x, y));
     }
   }
 
   return (
     <div
-      className={`grid grid-rows-7 grid-cols-7 w-100 max-w-[calc(100vw-60px)] h-100 max-h-[calc(100vw-60px)] flex-wrap mx-auto my-5 ${props.rotated ? "rotate-180" : ""}`}
+      className={`mx-auto flex w-100 max-w-[calc(100vw-60px)] flex-col ${props.rotated ? "rotate-180" : ""}`}
     >
-      {squares}
+      <div
+        className={`flex flex-row justify-center ${props.rotated ? "rotate-180" : ""}`}
+      >
+        <div className="flex-1"></div>
+        <div className="flex-auto">
+          {blackName || <i>(empty)</i>}
+          {kind === "black" && <i> (you)</i>}
+        </div>
+        <div className="flex-1 text-right">
+          {hasStarted && blackClock.clock}
+        </div>
+      </div>
+      <div
+        className={`mx-auto my-5 grid h-100 max-h-[calc(100vw-60px)] grid-cols-7 grid-rows-7 flex-wrap `}
+      >
+        {squares}
+      </div>
+      <div
+        className={`flex flex-row justify-center ${props.rotated ? "rotate-180" : ""}`}
+      >
+        <div className="flex-1"></div>
+        <div className="flex-auto">
+          {whiteName || <i>(empty)</i>}
+          {kind === "white" && <i> (you)</i>}
+        </div>
+        <div className="flex-1 text-right">
+          {hasStarted && whiteClock.clock}
+        </div>
+      </div>
     </div>
   );
 };
 
 Board.propTypes = {
-  data: shape({
-    board: object,
-    validMoves: arrayOf(moveProps),
-  }),
-  localMove: moveProps,
-  rotated: bool,
-  setLocalMove: func,
-  sendMove: func,
+  blackClock: object.isRequired,
+  data: object.isRequired,
+  gameProfile: object.isRequired,
+  localMove: moveProps.isRequired,
+  rotated: bool.isRequired,
+  sendMove: func.isRequired,
+  setLocalMove: func.isRequired,
+  whiteClock: object.isRequired,
 };
 
 export default Board;

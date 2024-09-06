@@ -6,14 +6,14 @@ const Rules = () => {
   return (
     <>
       <h2 className="my-4">Rules</h2>
-      <p className="mt-5 mb-10">
+      <p className="mb-10 mt-5">
         Download the rules in pdf
         <span className="mobile:hidden">:</span>
-        <span className="inline mobile:block mobile:mt-2">
+        <span className="inline mobile:mt-2 mobile:block">
           <a
             target="_blank"
             href="/rules/pushpush_rules_es.pdf"
-            className="ml-1.5 bg-blue-700 text-white hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 rounded-lg text-sm px-5 py-2.5"
+            className="ml-1.5 rounded-lg bg-blue-700 px-5 py-2.5 text-sm text-white hover:bg-blue-800 focus:ring-4 focus:ring-blue-300"
           >
             es
           </a>
@@ -24,8 +24,8 @@ const Rules = () => {
         <p> Translation to english is in progress.</p>
         <p> Translation to any other language is more than welcome.</p>
       </div>
-      <div className="text-left mt-5 space-y-2">
-        <div className="bg-[#f9f9f9] table border-solid border-[#aaa] border-2 mb-4 p-5">
+      <div className="mt-5 space-y-2 text-left">
+        <div className="mb-4 table border-2 border-solid border-[#aaa] bg-[#f9f9f9] p-5">
           <h3 className="mb-5">
             <button onClick={() => setHiddenContent((value) => !value)}>
               <span className="mr-2">{hiddenContent ? "▶" : "▼"}</span>
@@ -33,7 +33,7 @@ const Rules = () => {
             Contenido
           </h3>
           <ul
-            className={`text-left list-inside list-decimal ${hiddenContent ? "hidden" : ""}`}
+            className={`list-inside list-decimal text-left ${hiddenContent ? "hidden" : ""}`}
           >
             <li>
               <a href="#t1">Componentes</a>
@@ -52,12 +52,12 @@ const Rules = () => {
         <h3 id="t1" className="!mt-6">
           1. Componentes
         </h3>
-        <ul className="list-disc list-inside ml-8">
+        <ul className="ml-8 list-inside list-disc">
           <li>Un tablero cuadrado dividido en 49 casillas iguales.</li>
           <li>Una Pieza de Valor 0 neutral o balón (⚽).</li>
           <li>
             Para cada jugador:
-            <ul className="list-disc list-inside list-style ml-8">
+            <ul className="ml-8 list-inside list-disc">
               <li>Una Pieza de Valor 4 (♕).</li>
               <li>Dos Piezas de Valor 3 (♖).</li>
               <li>Dos Piezas de Valor 2 (♘).</li>

@@ -1,18 +1,21 @@
 import { useCallback, useContext, useEffect, useState } from "react";
+import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
+
+import NotificationContext from "../../context/NotificationContext";
+import useClock from "../../hooks/useClock";
+import useWebSocket from "../../hooks/useWebSocket";
+import start from "../../sounds/game-start.mp3";
+import move from "../../sounds/move.mp3";
+import { BACKEND_GAME_URL } from "../../utils/BackendResources";
+import { emptyMove } from "../../utils/Move";
+import TrySound from "../../utils/TrySound";
 import CopyIcon from "../elements/CopyIcon";
+import Loading from "../elements/Loading";
 import Board from "../pushpush/Board";
 import Button from "../styles/Button";
 import HorizontalWrapper from "../styles/HorizontalWrapper";
-import NotificationContext from "../../context/NotificationContext";
-import useWebSocket from "../../hooks/useWebSocket";
-import { emptyMove } from "../../utils/Move";
-import move from "../../sounds/move.mp3";
-import start from "../../sounds/game-start.mp3";
-import TrySound from "../../utils/TrySound";
-import Loading from "../elements/Loading";
 
-import React from "react";
 const Game = () => {
   const gameProfile = useParams();
   const navigate = useNavigate();
@@ -29,14 +32,18 @@ const Game = () => {
   }, [isDataNull]);
 
   const handleMessage = (json) => {
-    setData(json.game);
+    setData(json);
     if (json.game.moved) TrySound(move);
   };
 
   const sendMessage = useWebSocket(
-    `game/${gameProfile.gameId}/${gameProfile.kind}`,
+    BACKEND_GAME_URL(gameProfile.gameId, gameProfile.kind),
     handleMessage,
   );
+
+  const requestUpdate = () => {
+    sendMessage({ kind: "GAME_UPDATE" });
+  };
 
   const surrender = () => {
     sendMessage({ kind: "SURRENDER" });
@@ -50,15 +57,40 @@ const Game = () => {
 
   const sendMove = useCallback(
     (move) => {
-      sendMessage({ kind: "GAME_UPDATE", move });
+      sendMessage({ kind: "MOVE", move });
     },
     [sendMessage],
   );
+
+  const whiteClock = useClock(requestUpdate);
+  const blackClock = useClock(requestUpdate);
+
+  const whiteClockActions = whiteClock.actions;
+  const blackClockActions = blackClock.actions;
+
+  useEffect(() => {
+    if (!data) return;
+    whiteClockActions.setRemainingTime(data.whiteTimeLeftMillis);
+    blackClockActions.setRemainingTime(data.blackTimeLeftMillis);
+    if (data.game.nextPlayer === "WHITE" && data.hasStarted) {
+      whiteClockActions.resume();
+      blackClockActions.pause();
+    } else if (data.game.nextPlayer === "BLACK" && data.hasStarted) {
+      whiteClockActions.pause();
+      blackClockActions.resume();
+    } else {
+      whiteClockActions.pause();
+      blackClockActions.pause();
+    }
+  }, [data, whiteClockActions, blackClockActions]);
 
   if (data === null) return <Loading />;
 
   const boardProps = {
     data,
+    gameProfile,
+    whiteClock,
+    blackClock,
     sendMove,
     localMove,
     setLocalMove,
@@ -84,14 +116,18 @@ const Game = () => {
             Playing as: <b>{gameProfile.kind}</b>
           </div>
         )}
-        {data.winner && (
+        {data.game.winner && (
           <b>
-            <div>Winner: {data.winner.toLowerCase()}</div>
+            <div>
+              Winner: {data.game.winner.toLowerCase()} (
+              {data.game.winner === "WHITE" && data.whiteName}
+              {data.game.winner === "BLACK" && data.blackName})
+            </div>
           </b>
         )}
-        {data.nextPlayer && (
+        {data.game.nextPlayer && (
           <div>
-            Next turn: <b>{data.nextPlayer.toLowerCase()}</b>
+            Next turn: <b>{data.game.nextPlayer.toLowerCase()}</b>
           </div>
         )}
       </HorizontalWrapper>
@@ -105,10 +141,10 @@ const Game = () => {
             Cancel
           </Button>
         )}
-        {gameProfile.kind !== "viewer" && !data.winner && (
+        {gameProfile.kind !== "viewer" && !data.game.winner && (
           <Button onClick={surrender}>Surrender</Button>
         )}
-        {gameProfile.kind !== "viewer" && data.winner && (
+        {gameProfile.kind !== "viewer" && data.game.winner && (
           <Button onClick={restart}>Restart</Button>
         )}
         {gameProfile.kind === "viewer" && (

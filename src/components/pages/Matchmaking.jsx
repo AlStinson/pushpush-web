@@ -1,21 +1,24 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+
+import useStopWatch from "../../hooks/useStopwatch";
 import useWebSocket from "../../hooks/useWebSocket";
-import StopWatch from "../elements/StopWatch";
+import { BACKEND_MATCHMAKING_URL } from "../../utils/BackendResources";
 import Button from "../styles/Button";
 
 const Matchmaking = () => {
   const navigate = useNavigate();
+  const clock = useStopWatch();
 
   const onmessage = (json) => {
     navigate(`/game/${json.gameId}/${json.view}`);
   };
 
-  useWebSocket("matchmaking", onmessage);
+  useWebSocket(BACKEND_MATCHMAKING_URL, onmessage);
   return (
     <>
       <h2>Matchmaking</h2>
-      <StopWatch />
+      <h3>{clock}</h3>
       <Button onClick={() => navigate("/")}>Cancel</Button>
     </>
   );

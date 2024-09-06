@@ -1,13 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { websocketCallbacks } from "../utils/Websocket";
 import useConst from "./useConst";
 
-const useWebSocket = (pathParam, onmessageParam) => {
+const useWebSocket = (urlParam, onmessageParam) => {
   const [socket, setSocket] = useState(null);
   const navigate = useNavigate();
 
   const onmessage = useConst(onmessageParam);
-  const path = useConst(pathParam);
+  const url = useConst(urlParam);
 
   const handleError = useCallback(
     (error) => {
@@ -30,27 +32,24 @@ const useWebSocket = (pathParam, onmessageParam) => {
   );
 
   useEffect(() => {
-    const ws = new WebSocket(`${import.meta.env.VITE_BACKEND_PATH}/${path}`);
-    ws.onopen = () => {};
-    ws.onmessage = handleMessage;
-    ws.onerror = (event) => handleError(event.data);
-    ws.onclose = () => {};
+    const ws = new WebSocket(url);
+    websocketCallbacks(ws, {
+      onmessage: handleMessage,
+      onerror: (event) => handleError(event.data),
+    });
     setSocket(ws);
 
     return () => {
-      ws.onopen = () => ws.close();
-      ws.onmessage = () => {};
-      ws.onerror = () => {};
-      ws.onclose = () => {};
+      websocketCallbacks(ws, { onopen: () => ws.close() });
       if (ws.readyState === WebSocket.OPEN) ws.close();
     };
-  }, [path, handleMessage, handleError]);
+  }, [url, handleMessage, handleError]);
 
   const sendMessage = useCallback(
     (message) => {
       if (socket && socket.readyState === WebSocket.OPEN)
         socket.send(JSON.stringify(message));
-      else handleError("WebSocket connection not established");
+      else handleError("WebSocket connection not established");;
     },
     [socket, handleError],
   );

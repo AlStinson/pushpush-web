@@ -1,6 +1,7 @@
 import React from "react";
-import useHealth from "../../hooks/useHealth";
 import { Outlet, useNavigate, useNavigation } from "react-router-dom";
+
+import useHealth from "../../hooks/useHealth";
 import Footer from "../elements/Footer";
 import Loading from "../elements/Loading";
 import NavLink from "../styles/NavLink";
@@ -12,15 +13,15 @@ const Layout = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col min-h-screen text-center max-w-300 mx-auto">
+    <div className="mx-auto flex min-h-screen max-w-300 flex-col text-center">
       <header>
         <h1
           onClick={() => navigate("/")}
-          className="cursor-pointer bg-primary text-text-alternative text-center p-5 border-b-primary-hover border-solid border-b-4"
+          className="cursor-pointer border-b-4 border-solid border-b-primary-hover bg-primary p-5 text-center text-text-alternative"
         >
           Pushpush
         </h1>
-        <nav className="inline-block bg-navbar mx-auto">
+        <nav className="mx-auto inline-block bg-navbar">
           <div className="grid grid-cols-4 mobile:grid-cols-2">
             <NavLink to="/">Home</NavLink>
             <NavLink to="/play">Play</NavLink>
@@ -29,7 +30,7 @@ const Layout = () => {
           </div>
         </nav>
       </header>
-      <main className="grow p-5 tablet:p-4 mobile:p-3">
+      <main className="grow p-5 mobile:p-3 tablet:p-4">
         {navigation.state !== "idle" ? <Loading /> : <Outlet />}
       </main>
       <Footer />

@@ -1,8 +1,11 @@
+import { node } from "prop-types";
 import React from "react";
-import PropTypes from "prop-types";
 import { useCallback, useState } from "react";
+
 import NotificationContext from "../../context/NotificationContext";
 import Notification from "../styles/Notification";
+
+const NOTIFICATION_LIVE_TIME_MS = 5000;
 
 const NotificationWrapper = (props) => {
   const [notification, setNotification] = useState(null);
@@ -16,7 +19,7 @@ const NotificationWrapper = (props) => {
         setNotification((prev) => {
           if (prev === notification) setNotification(null);
         }),
-      5000,
+      NOTIFICATION_LIVE_TIME_MS,
     );
   }, []);
 
@@ -29,7 +32,7 @@ const NotificationWrapper = (props) => {
 };
 
 NotificationWrapper.propTypes = {
-  children: PropTypes.node,
+  children: node.isRequired,
 };
 
 export default NotificationWrapper;

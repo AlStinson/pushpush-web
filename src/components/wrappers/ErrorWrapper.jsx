@@ -1,5 +1,5 @@
-import React from "react";
 import { node } from "prop-types";
+import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { Navigate } from "react-router-dom";
 
@@ -12,7 +12,7 @@ const ErrorWrapper = (props) => (
 );
 
 ErrorWrapper.propTypes = {
-  children: node,
+  children: node.isRequired,
 };
 
 export default ErrorWrapper;

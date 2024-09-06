@@ -1,6 +1,7 @@
-import React from "react";
-import Piece from "./Piece";
 import { bool, func, string } from "prop-types";
+import React from "react";
+
+import Piece from "./Piece";
 
 const Square = ({ selected, selectable, onclick, piece, rotated }) => {
   return (
@@ -14,11 +15,11 @@ const Square = ({ selected, selectable, onclick, piece, rotated }) => {
 };
 
 Square.propTypes = {
-  selected: bool,
-  selectable: bool,
-  onclick: func,
+  onclick: func.isRequired,
   piece: string,
-  rotated: bool,
+  rotated: bool.isRequired,
+  selectable: bool.isRequired,
+  selected: bool,
 };
 
 export default Square;

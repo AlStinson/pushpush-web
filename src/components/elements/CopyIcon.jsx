@@ -4,11 +4,11 @@ import React from "react";
 const CopyIcon = (props) => {
   const onClick = () => {
     navigator.clipboard.writeText(props.value);
-    props.action && props.action();
+    if (props.action) props.action();
   };
   return (
     <svg
-      className="cursor-pointer h-5 ml-2"
+      className="ml-2 h-5 cursor-pointer"
       onClick={onClick}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
@@ -26,8 +26,8 @@ const CopyIcon = (props) => {
 };
 
 CopyIcon.propTypes = {
-  value: string,
   action: func,
+  value: string.isRequired,
 };
 
 export default CopyIcon;

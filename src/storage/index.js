@@ -26,7 +26,7 @@ export const createStorage = (reducers, initialState = {}) => {
   return { subscribe, getSnapshot, actions };
 };
 
-export const useStorage = (storage, selectorProp) => {
+export const useStorage = (storage, selectorProp = (state) => state) => {
   const selector = useConst(selectorProp);
 
   const getLocalSnapshot = useCallback(

@@ -1,5 +1,4 @@
-import { useStorage } from ".";
-import createStorage from "./createStorage";
+import { createStorage, useStorage } from ".";
 
 const initialState = { init: null, dir: null, normal: null };
 

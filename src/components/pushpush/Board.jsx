@@ -1,7 +1,12 @@
-import { bool, func, object } from "prop-types";
+import { func, object } from "prop-types";
 import React from "react";
+import { useParams } from "react-router-dom";
 
-import { emptyMove, moveProps } from "../../utils/Move";
+import {
+  localMoveActions,
+  useLocalMoveStorage,
+} from "../../storage/localMoveStorage";
+import { useRotationStorage } from "../../storage/rotationStorage.";
 import { sameVector, subVectors, sumVectors } from "../../utils/Vector2Integer";
 import Square from "./Square";
 
@@ -9,10 +14,13 @@ const BOARD_SIZE = 7;
 
 const Board = (props) => {
   const { board, validMoves } = props.data.game;
-  const { init, dir } = props.localMove;
   const { whiteName, blackName, hasStarted } = props.data;
-  const { kind } = props.gameProfile;
   const { whiteClock, blackClock } = props;
+
+  const { kind } = useParams();
+  const { init, dir } = useLocalMoveStorage();
+  let rotated = useRotationStorage();
+  rotated = kind === "white" ? false : kind === "black" ? true : rotated;
 
   const renderSquare = (x, y) => {
     const square = { x, y };
@@ -28,23 +36,20 @@ const Board = (props) => {
       ? movesAsInitial.length > 0
       : !dir && movesAsFinal.length > 0;
     const squareProps = {
-      rotated: props.rotated,
+      rotated,
       piece: board[`(${x},${y})`],
       selectable,
       selected:
         sameVector(square, init) ||
         (init && dir && sameVector(square, sumVectors(init, dir))),
       onclick: () => {
-        if (!selectable) props.setLocalMove(emptyMove);
-        else if (!init) props.setLocalMove({ init: square });
+        if (!selectable) localMoveActions.reset();
+        else if (!init) localMoveActions.setInit(square);
         else if (movesAsFinal.length === 1) {
           props.sendMove(movesAsFinal[0]);
-          props.setLocalMove(emptyMove);
+          localMoveActions.reset();
         } else {
-          props.setLocalMove((state) => ({
-            ...state,
-            dir: subVectors(square, init),
-          }));
+          localMoveActions.setDir(subVectors(square, init));
         }
       },
     };
@@ -61,10 +66,10 @@ const Board = (props) => {
 
   return (
     <div
-      className={`mx-auto flex w-100 max-w-[calc(100vw-60px)] flex-col ${props.rotated ? "rotate-180" : ""}`}
+      className={`mx-auto flex w-100 max-w-[calc(100vw-60px)] flex-col ${rotated ? "rotate-180" : ""}`}
     >
       <div
-        className={`flex flex-row justify-center ${props.rotated ? "rotate-180" : ""}`}
+        className={`flex flex-row justify-center ${rotated ? "rotate-180" : ""}`}
       >
         <div className="flex-1"></div>
         <div className="flex-auto">
@@ -81,7 +86,7 @@ const Board = (props) => {
         {squares}
       </div>
       <div
-        className={`flex flex-row justify-center ${props.rotated ? "rotate-180" : ""}`}
+        className={`flex flex-row justify-center ${rotated ? "rotate-180" : ""}`}
       >
         <div className="flex-1"></div>
         <div className="flex-auto">
@@ -99,11 +104,7 @@ const Board = (props) => {
 Board.propTypes = {
   blackClock: object.isRequired,
   data: object.isRequired,
-  gameProfile: object.isRequired,
-  localMove: moveProps.isRequired,
-  rotated: bool.isRequired,
   sendMove: func.isRequired,
-  setLocalMove: func.isRequired,
   whiteClock: object.isRequired,
 };
 

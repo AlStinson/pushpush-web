@@ -6,7 +6,11 @@ const SECONDS_IN_A_MINUTE = 60;
 const SINGLE_DIGIT_NUMBER_LIMIT = 10;
 
 const preattyPrint = (value) => {
-  return value <= 0 ? "00" : value < SINGLE_DIGIT_NUMBER_LIMIT ? `0${value}` : value;
+  return value <= 0
+    ? "00"
+    : value < SINGLE_DIGIT_NUMBER_LIMIT
+      ? `0${value}`
+      : value;
 };
 
 export const timeFromMillis = (timeInMillis) => {

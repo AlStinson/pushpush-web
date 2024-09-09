@@ -3,11 +3,16 @@ import React from "react";
 import { useParams } from "react-router-dom";
 
 import {
+  BlackClockStorage,
+  WhiteClockStorage,
+} from "../../storage/clockStorage";
+import {
   localMoveActions,
   useLocalMoveStorage,
 } from "../../storage/localMoveStorage";
 import { useRotationStorage } from "../../storage/rotationStorage.";
 import { sameVector, subVectors, sumVectors } from "../../utils/Vector2Integer";
+import Clock from "./CLock";
 import Square from "./Square";
 
 const BOARD_SIZE = 7;
@@ -15,7 +20,7 @@ const BOARD_SIZE = 7;
 const Board = (props) => {
   const { board, validMoves } = props.data.game;
   const { whiteName, blackName, hasStarted } = props.data;
-  const { whiteClock, blackClock } = props;
+  const { requestUpdate } = props;
 
   const { kind } = useParams();
   const { init, dir } = useLocalMoveStorage();
@@ -77,7 +82,9 @@ const Board = (props) => {
           {kind === "black" && <i> (you)</i>}
         </div>
         <div className="flex-1 text-right">
-          {hasStarted && blackClock.clock}
+          {hasStarted && (
+            <Clock storage={BlackClockStorage} onExpire={requestUpdate} />
+          )}
         </div>
       </div>
       <div
@@ -94,7 +101,9 @@ const Board = (props) => {
           {kind === "white" && <i> (you)</i>}
         </div>
         <div className="flex-1 text-right">
-          {hasStarted && whiteClock.clock}
+          {hasStarted && (
+            <Clock storage={WhiteClockStorage} onExpire={requestUpdate} />
+          )}
         </div>
       </div>
     </div>
@@ -102,10 +111,9 @@ const Board = (props) => {
 };
 
 Board.propTypes = {
-  blackClock: object.isRequired,
   data: object.isRequired,
+  requestUpdate: func.isRequired,
   sendMove: func.isRequired,
-  whiteClock: object.isRequired,
 };
 
 export default Board;

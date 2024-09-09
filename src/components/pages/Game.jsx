@@ -2,10 +2,13 @@ import { useCallback, useEffect, useState } from "react";
 import React from "react";
 import { useParams } from "react-router-dom";
 
-import useClock from "../../hooks/useClock";
 import useWebSocket from "../../hooks/useWebSocket";
 import start from "../../sounds/game-start.mp3";
 import move from "../../sounds/move.mp3";
+import {
+  BlackClockStorage,
+  WhiteClockStorage,
+} from "../../storage/clockStorage";
 import { BACKEND_GAME_URL } from "../../utils/BackendResources";
 import TrySound from "../../utils/TrySound";
 import Loading from "../elements/Loading";
@@ -26,6 +29,18 @@ const Game = () => {
 
   const handleMessage = (json) => {
     setData(json);
+    WhiteClockStorage.actions.setRemainingTime(json.whiteTimeLeftMillis);
+    BlackClockStorage.actions.setRemainingTime(json.blackTimeLeftMillis);
+    if (json.game.nextPlayer === "WHITE" && json.hasStarted) {
+      WhiteClockStorage.actions.resume();
+      BlackClockStorage.actions.pause();
+    } else if (json.game.nextPlayer === "BLACK" && json.hasStarted) {
+      WhiteClockStorage.actions.pause();
+      BlackClockStorage.actions.resume();
+    } else {
+      WhiteClockStorage.actions.pause();
+      BlackClockStorage.actions.pause();
+    }
     if (json.game.moved) TrySound(move);
   };
 
@@ -34,9 +49,9 @@ const Game = () => {
     handleMessage,
   );
 
-  const requestUpdate = () => {
+  const requestUpdate = useCallback(() => {
     sendMessage({ kind: "GAME_UPDATE" });
-  };
+  }, [sendMessage]);
 
   const sendMove = useCallback(
     (move) => {
@@ -45,35 +60,12 @@ const Game = () => {
     [sendMessage],
   );
 
-  const whiteClock = useClock(requestUpdate);
-  const blackClock = useClock(requestUpdate);
-
-  const whiteClockActions = whiteClock.actions;
-  const blackClockActions = blackClock.actions;
-
-  useEffect(() => {
-    if (!data) return;
-    whiteClockActions.setRemainingTime(data.whiteTimeLeftMillis);
-    blackClockActions.setRemainingTime(data.blackTimeLeftMillis);
-    if (data.game.nextPlayer === "WHITE" && data.hasStarted) {
-      whiteClockActions.resume();
-      blackClockActions.pause();
-    } else if (data.game.nextPlayer === "BLACK" && data.hasStarted) {
-      whiteClockActions.pause();
-      blackClockActions.resume();
-    } else {
-      whiteClockActions.pause();
-      blackClockActions.pause();
-    }
-  }, [data, whiteClockActions, blackClockActions]);
-
   if (data === null) return <Loading />;
 
   const boardProps = {
     data,
-    whiteClock,
-    blackClock,
     sendMove,
+    requestUpdate,
   };
 
   return (

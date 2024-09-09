@@ -49,7 +49,7 @@ const useWebSocket = (urlParam, onmessageParam) => {
     (message) => {
       if (socket && socket.readyState === WebSocket.OPEN)
         socket.send(JSON.stringify(message));
-      else handleError("WebSocket connection not established");;
+      else handleError("WebSocket connection not established");
     },
     [socket, handleError],
   );

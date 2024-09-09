@@ -1,5 +1,4 @@
 import { bool, func, string } from "prop-types";
-import React from "react";
 
 import Piece from "./Piece";
 

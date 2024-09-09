@@ -1,5 +1,4 @@
 import { func, string } from "prop-types";
-import React from "react";
 
 const CopyIcon = (props) => {
   const onClick = () => {

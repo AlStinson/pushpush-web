@@ -1,5 +1,4 @@
 import { bool, string } from "prop-types";
-import React from "react";
 
 import * as images from "../../images/index";
 

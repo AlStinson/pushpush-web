@@ -1,5 +1,4 @@
 import { node } from "prop-types";
-import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { Navigate } from "react-router-dom";
 

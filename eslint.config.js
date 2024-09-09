@@ -1,12 +1,13 @@
 import globals from "globals";
 import pluginJs from "@eslint/js";
+import pluginTs from "typescript-eslint";
 import pluginReact from "eslint-plugin-react";
 import pluginReactHooks from "eslint-plugin-react-hooks";
 import pluginTailwindcss from "eslint-plugin-tailwindcss";
 import pluginSimpleImportSort from "eslint-plugin-simple-import-sort";
 
 const generalConfig = [
-  { files: ["**/*.{js,mjs,cjs,jsx}"] },
+  { files: ["**/*.{js,mjs,cjs,jsx,ts,tsx}"] },
   { languageOptions: { globals: globals.browser } },
   { ignores: ["build/", "*.config.*js"] },
   { settings: { react: { version: "detect" } } },
@@ -45,13 +46,28 @@ const pluginJsConfig = [
   },
 ];
 
+const pluginTsConfig = [
+  ...pluginTs.configs.recommended,
+  {
+    languageOptions: {
+      parserOptions: {
+        // I want to use latest typescript version
+        warnOnUnsupportedTypeScriptVersion: false,
+      },
+    },
+  },
+];
+
 const pluginReactConfig = [
   {
     ...pluginReact.configs.flat.recommended,
     rules: {
       ...pluginReact.configs.flat.recommended.rules,
       "react/forbid-prop-types": ["warn", { forbid: ["any", "object"] }],
-      "react/jsx-filename-extension": "error",
+      "react/jsx-filename-extension": [
+        "error",
+        { extensions: [".jsx", ".tsx"] },
+      ],
       "react/jsx-no-useless-fragment": "warn",
       "react/jsx-pascal-case": "warn",
       "react/no-array-index-key": "error",
@@ -59,6 +75,8 @@ const pluginReactConfig = [
       "react/prefer-exact-props": "warn",
       "react/prefer-stateless-function": "error",
       "react/sort-prop-types": "warn",
+      "react/jsx-uses-react": "off",
+      "react/react-in-jsx-scope": "off",
     },
   },
 ];
@@ -92,6 +110,7 @@ const pluginSimpleImportSortConfig = [
 export default [
   ...generalConfig,
   ...pluginJsConfig,
+  ...pluginTsConfig,
   ...pluginReactConfig,
   ...pluginReactHooksConfig,
   ...pluginTailwindcssConfig,

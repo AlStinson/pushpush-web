@@ -1,5 +1,4 @@
 import { node } from "prop-types";
-import React from "react";
 import { useCallback, useState } from "react";
 
 import NotificationContext from "../../context/NotificationContext";

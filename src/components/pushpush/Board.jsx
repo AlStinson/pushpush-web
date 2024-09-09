@@ -1,5 +1,4 @@
 import { func, object } from "prop-types";
-import React from "react";
 import { useParams } from "react-router-dom";
 
 import {
@@ -12,7 +11,7 @@ import {
 } from "../../storage/localMoveStorage";
 import { useRotationStorage } from "../../storage/rotationStorage.";
 import { sameVector, subVectors, sumVectors } from "../../utils/Vector2Integer";
-import Clock from "./CLock";
+import Clock from "./Clock";
 import Square from "./Square";
 
 const BOARD_SIZE = 7;

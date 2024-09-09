@@ -1,4 +1,3 @@
-import React from "react";
 import { Outlet, useNavigate, useNavigation } from "react-router-dom";
 
 import useHealth from "../../hooks/useHealth";
